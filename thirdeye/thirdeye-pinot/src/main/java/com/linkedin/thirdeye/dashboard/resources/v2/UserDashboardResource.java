@@ -62,7 +62,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.apache.commons.lang.StringUtils;
 
-
 /**
  * Endpoints for user-customized dashboards (currently alerts only)
  */
@@ -172,7 +171,10 @@ public class UserDashboardResource {
     if (StringUtils.isNotBlank(application)) {
       List<AnomalyFunctionDTO> functions = this.functionDAO.findAllByApplication(application);
       for (AnomalyFunctionDTO function : functions) {
-        applicationFunctionIds.add(function.getId());
+        // only show anomalies with active alerts
+        if (function.getIsActive()) {
+          applicationFunctionIds.add(function.getId());
+        }
       }
     }
 
