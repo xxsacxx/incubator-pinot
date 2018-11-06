@@ -61,6 +61,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.apache.commons.lang.StringUtils;
+import sun.util.resources.cldr.wae.CalendarData_wae_CH;
 
 
 /**
@@ -172,7 +173,10 @@ public class UserDashboardResource {
     if (StringUtils.isNotBlank(application)) {
       List<AnomalyFunctionDTO> functions = this.functionDAO.findAllByApplication(application);
       for (AnomalyFunctionDTO function : functions) {
-        applicationFunctionIds.add(function.getId());
+        // only show anomalies with active alerts
+        if (function.getIsActive()) {
+          applicationFunctionIds.add(function.getId());
+        }
       }
     }
 
