@@ -61,6 +61,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.apache.commons.lang.StringUtils;
+import sun.util.resources.cldr.wae.CalendarData_wae_CH;
 
 /**
  * Endpoints for user-customized dashboards (currently alerts only)
