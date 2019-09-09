@@ -48,6 +48,7 @@ public class TransformFunctionFactory {
           put(TimeConversionTransformFunction.FUNCTION_NAME.toLowerCase(), TimeConversionTransformFunction.class);
           put(DateTimeConversionTransformFunction.FUNCTION_NAME.toLowerCase(),
               DateTimeConversionTransformFunction.class);
+          put(JsonPathTransformFunction.FUNCTION_NAME.toLowerCase(), JsonPathTransformFunction.class);
           put(ValueInTransformFunction.FUNCTION_NAME.toLowerCase(), ValueInTransformFunction.class);
           put(AbsTransformFunction.FUNCTION_NAME.toLowerCase(), AbsTransformFunction.class);
           put(CeilTransformFunction.FUNCTION_NAME.toLowerCase(), CeilTransformFunction.class);

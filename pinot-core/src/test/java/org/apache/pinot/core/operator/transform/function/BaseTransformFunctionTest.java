@@ -18,10 +18,14 @@
  */
 package org.apache.pinot.core.operator.transform.function;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -51,10 +55,6 @@ import org.testng.annotations.BeforeClass;
 
 
 public abstract class BaseTransformFunctionTest {
-  private static final String SEGMENT_NAME = "testSegment";
-  private static final String INDEX_DIR_PATH = FileUtils.getTempDirectoryPath() + File.separator + SEGMENT_NAME;
-  private static final Random RANDOM = new Random();
-
   protected static final int NUM_ROWS = 1000;
   protected static final int MAX_NUM_MULTI_VALUES = 5;
   protected static final int MAX_MULTI_VALUE = 10;
@@ -65,7 +65,10 @@ public abstract class BaseTransformFunctionTest {
   protected static final String STRING_SV_COLUMN = "stringSV";
   protected static final String INT_MV_COLUMN = "intMV";
   protected static final String TIME_COLUMN = "time";
-
+  protected static final String JSON_COLUMN = "json";
+  private static final String SEGMENT_NAME = "testSegment";
+  private static final String INDEX_DIR_PATH = FileUtils.getTempDirectoryPath() + File.separator + SEGMENT_NAME;
+  private static final Random RANDOM = new Random();
   protected final int[] _intSVValues = new int[NUM_ROWS];
   protected final long[] _longSVValues = new long[NUM_ROWS];
   protected final float[] _floatSVValues = new float[NUM_ROWS];
@@ -73,6 +76,7 @@ public abstract class BaseTransformFunctionTest {
   protected final String[] _stringSVValues = new String[NUM_ROWS];
   protected final int[][] _intMVValues = new int[NUM_ROWS][];
   protected final long[] _timeValues = new long[NUM_ROWS];
+  protected final String[] _jsonValues = new String[NUM_ROWS];
 
   protected Map<String, DataSource> _dataSourceMap;
   protected ProjectionBlock _projectionBlock;
@@ -81,14 +85,15 @@ public abstract class BaseTransformFunctionTest {
   public void setUp()
       throws Exception {
     FileUtils.deleteQuietly(new File(INDEX_DIR_PATH));
-
+    DecimalFormat df = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+    df.setMaximumFractionDigits(340); // 340 = DecimalFormat.DOUBLE_FRACTION_DIGITS
     long currentTimeMs = System.currentTimeMillis();
     for (int i = 0; i < NUM_ROWS; i++) {
       _intSVValues[i] = RANDOM.nextInt();
       _longSVValues[i] = RANDOM.nextLong();
       _floatSVValues[i] = _intSVValues[i] * RANDOM.nextFloat();
       _doubleSVValues[i] = _intSVValues[i] * RANDOM.nextDouble();
-      _stringSVValues[i] = Double.toString(_intSVValues[i] * RANDOM.nextDouble());
+      _stringSVValues[i] = df.format(_intSVValues[i] * RANDOM.nextDouble());
 
       int numValues = 1 + RANDOM.nextInt(MAX_NUM_MULTI_VALUES);
       _intMVValues[i] = new int[numValues];
@@ -110,6 +115,8 @@ public abstract class BaseTransformFunctionTest {
       map.put(STRING_SV_COLUMN, _stringSVValues[i]);
       map.put(INT_MV_COLUMN, ArrayUtils.toObject(_intMVValues[i]));
       map.put(TIME_COLUMN, _timeValues[i]);
+      _jsonValues[i] = new ObjectMapper().writeValueAsString(map);
+      map.put(JSON_COLUMN, _jsonValues[i]);
       GenericRow row = new GenericRow();
       row.init(map);
       rows.add(row);
@@ -123,6 +130,7 @@ public abstract class BaseTransformFunctionTest {
     schema.addField(new DimensionFieldSpec(STRING_SV_COLUMN, FieldSpec.DataType.STRING, true));
     schema.addField(new DimensionFieldSpec(INT_MV_COLUMN, FieldSpec.DataType.INT, false));
     schema.addField(new TimeFieldSpec(TIME_COLUMN, FieldSpec.DataType.LONG, TimeUnit.MILLISECONDS));
+    schema.addField(new DimensionFieldSpec(JSON_COLUMN, FieldSpec.DataType.STRING, true));
 
     SegmentGeneratorConfig config = new SegmentGeneratorConfig(schema);
     config.setOutDir(INDEX_DIR_PATH);
