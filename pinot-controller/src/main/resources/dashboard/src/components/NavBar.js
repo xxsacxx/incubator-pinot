@@ -90,7 +90,6 @@ class NavBar extends Component {
 
                         </TypoGraphy>
                     </ListItemText>
-
                     <ListItemText inset onClick={this.dsiplayPage}>
                         <TypoGraphy color="inherit" variant="title">
                         <NavLink
