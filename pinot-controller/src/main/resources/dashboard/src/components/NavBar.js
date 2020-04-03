@@ -20,7 +20,18 @@ import React, {Component} from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import TypoGraphy from '@material-ui/core/Typography'
+import TypoGraphy from '@material-ui/core/Typography';
+
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    NavLink,
+  } from "react-router-dom";
+  import Tenants from "./Tenants";
+ 
+
 
 
 class NavBar extends Component {
@@ -59,50 +70,121 @@ class NavBar extends Component {
     displayTables() {
         this.props.mutateState('tables');
     };
+   
 
     render() {
         return (
+            <Router>
             <List component="nav">
                 <ListItem component="div" >
                     <ListItemText inset onClick={this.dsiplayCluster}>
                         <TypoGraphy color="inherit" variant="title" >
+                        <NavLink
+                         strict to="/cluster" 
+                         activeStyle={{
+                        fontWeight: "bold",
+                        color: "red"
+                        }}>
                             Cluster
+                            </NavLink>
+
                         </TypoGraphy>
                     </ListItemText>
 
                     <ListItemText inset onClick={this.dsiplayPage}>
                         <TypoGraphy color="inherit" variant="title">
+                        <NavLink
+                         strict to="/tenants" 
+                         activeStyle={{
+                        fontWeight: "bold",
+                        color: "red"
+                        }}>
                             Tenants
+                            </NavLink>  
+                            
                         </TypoGraphy>
                     </ListItemText>
 
                     <ListItemText inset onClick={this.displayTables}>
                         <TypoGraphy color="inherit" variant="title">
+                        <NavLink
+                         strict to="/tables" 
+                         activeStyle={{
+                        fontWeight: "bold",
+                        color: "red"
+                        }}>
                             Tables
+                            </NavLink> 
+                            
                         </TypoGraphy>
                     </ListItemText>
 
                     <ListItemText inset onClick={this.displayControllers}>
                         <TypoGraphy color="inherit" variant="title">
+                        <NavLink
+                         strict to="/controllers" 
+                         activeStyle={{
+                        fontWeight: "bold",
+                        color: "red"
+                        }}>
                             Controllers
+                            </NavLink>
+                            
                         </TypoGraphy>
                     </ListItemText>
 
                     <ListItemText inset onClick={this.displayServers}>
                         <TypoGraphy color="inherit" variant="title">
+                        <NavLink
+                         strict to="/servers" 
+                         activeStyle={{
+                        fontWeight: "bold",
+                        color: "red"
+                        }}>
                             Servers
+                            </NavLink>
+                            
                         </TypoGraphy>
                     </ListItemText>
 
                     <ListItemText inset onClick={this.displayBrokers}>
                         <TypoGraphy color="inherit" variant="title">
+                        <NavLink
+                         strict to="/brokers" 
+                         activeStyle={{
+                        fontWeight: "bold",
+                        color: "red"
+                        }}>
                             Brokers
+                            </NavLink>
+                            
                         </TypoGraphy>
                     </ListItemText>
                 </ListItem>
 
-            </List>)
+            </List>
+            <Switch>
+        <Route path="/cluster"> 
+            
+          </Route>
+          <Route path="/tenants" >
+          <Tenants></Tenants>
+          
+          </Route>
+          <Route path="/tables">
+          </Route>
+          <Route path="/controllers">
+          </Route>
+          <Route path="/servers">
+          </Route>
+          <Route path="/brokers">
+          </Route>
+          
+        </Switch>
+            </Router>)
     }
+
+    
 }
 
 

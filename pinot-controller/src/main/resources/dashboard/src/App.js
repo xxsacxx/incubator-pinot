@@ -80,10 +80,12 @@ class App extends React.Component {
             })
             .catch(console.log)
     }
+    
 
 
 
     render() {
+        
         let displayTile;
         if(this.state.currentState === 'cluster') {
             displayTile = <Cluster></Cluster>
