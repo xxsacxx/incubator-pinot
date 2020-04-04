@@ -37,8 +37,10 @@ class NavBar extends Component {
                         <NavLink
                         to="/cluster"
                         activeStyle={{
+                            background:"white",
                             fontWeight: "bold",
-                            color: "red"
+                            
+                            color: "blue"
                         }}>
                             Cluster
                             </NavLink>
@@ -51,8 +53,10 @@ class NavBar extends Component {
                         <NavLink
                         to="/tenants"
                         activeStyle={{
+                            background:"white",
                             fontWeight: "bold",
-                            color: "red"
+                            
+                            color: "blue"
                         }}>
                             Tenants
                             </NavLink>
@@ -65,8 +69,10 @@ class NavBar extends Component {
                         <NavLink
                         to="/tables"
                         activeStyle={{
+                            background:"white",
                             fontWeight: "bold",
-                            color: "red"
+                            
+                            color: "blue"
                         }}>
                             Tables
                             </NavLink>
@@ -79,8 +85,10 @@ class NavBar extends Component {
                         <NavLink
                         to="/controllers"
                         activeStyle={{
+                            background:"white",
                             fontWeight: "bold",
-                            color: "red"
+                            
+                            color: "blue"
                         }}>
                             Controllers
                             </NavLink>
@@ -92,8 +100,10 @@ class NavBar extends Component {
                         <NavLink
                         to="/servers"
                         activeStyle={{
+                            background:"white",
                             fontWeight: "bold",
-                            color: "red"
+                            
+                            color: "blue"
                         }}>
                              Servers
                             </NavLink>
@@ -106,8 +116,10 @@ class NavBar extends Component {
                         <NavLink
                         to="/brokers"
                         activeStyle={{
+                            background:"white",
                             fontWeight: "bold",
-                            color: "red"
+                            
+                            color: "blue"
                         }}>
                             Brokers
                             </NavLink>
